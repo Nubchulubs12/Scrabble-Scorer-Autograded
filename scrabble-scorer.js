@@ -40,18 +40,12 @@ function initialPrompt() {
    
 };
 
-let newPointStructure = {
-"a": 1, "b": 3, "c": 3, "d": 2, "e": 1,
-"f": 4, "g": 2, "h": 4, "i": 1, "j": 8,
-"k": 5, "l": 1, "m": 3, "n": 1, "o": 1,
-"p": 3, "q": 10, "r": 1, "s": 1, "t": 1,
-"u": 1, "v": 4, "w": 4, "x": 8, "y": 4,
-"z": 10
-};
+let newPointStructure = transform(oldPointStructure);
+
 
 
 let simpleScorer = function(word) {
-   word = word.toUpperCase();
+   word = word.toLowerCase();
    let points = 1;
    let wordPoints = 0;
    for (let i = 0; i < word.length; i++) {
@@ -62,7 +56,7 @@ let simpleScorer = function(word) {
 };
 
 let vowelBonusScorer = function(word) {
-   word = word.toUpperCase();
+   word = word.toLowerCase();
    let vowel = 3;
 let consonant = 1;
 let wordPoints = 0;
@@ -78,22 +72,26 @@ return wordPoints;
 };
 
 let scrabbleScorer = function(word) {
-   let points = oldScrabbleScorer(word);
+   let points = 0
+   for (let i = 0; i < word.length; i++) {
+      let letter = word[i].toLowerCase();
+      points += newPointStructure[letter];
+   }
    return points;
 };
 
 const scoringAlgorithms = [
 {"name": "Simple Scorer",
 "description": "Each letter is worth 1 point.",
-"scoreFunction": simpleScorer},
+"scorerFunction": simpleScorer},
 
 {"name": "Bonus Vowels",
 "description": "Vowels are worth 3pts and consonants are 1pt.",
-"scoreFunction": vowelBonusScorer},
+"scorerFunction": vowelBonusScorer},
 
 {"name": "Scrabble",
 "description": "The traditional scoring algorithm.",
-"scoreFunction": scrabbleScorer}
+"scorerFunction": scrabbleScorer}
 
 ];
 function scorerPrompt() {
@@ -113,16 +111,22 @@ if (response >= 0 && response < scoringAlgorithms.length){
 }
 
 function transform(oldPointStructure) {
-
-   for( key in oldPointStructure){
-
-}
-return ;
+let newPointStructure = {};
+   for (let key in oldPointStructure) {
+      let letters = oldPointStructure[key];
+      for (let i = 0; i < letters.length; i++) {
+         let letter = letters[i].toLowerCase();
+         newPointStructure[letter] = Number(key);
+      }
+   };
+      
+return newPointStructure;
 };
 
 function runProgram() {
    initialPrompt();
    scorerPrompt();
+   
 }
 
 
