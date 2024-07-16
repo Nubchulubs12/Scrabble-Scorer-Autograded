@@ -103,7 +103,7 @@ for (let i = 0; i < scoringAlgorithms.length; i++) {
 let response = input.question("Enter 0, 1, or 2: ");
 
 if (response >= 0 && response < scoringAlgorithms.length){
-   console.log(`score for word ${word}: ${scoringAlgorithms[response].scoreFunction(word)}`);
+   console.log(`score for word ${word}: ${scoringAlgorithms[response].scorerFunction(word)}`);
 } else {
    console.log("That isn't an available option.");
 }
